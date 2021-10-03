@@ -47,7 +47,7 @@ variable "image_name" {
 variable "image_tag" {
   type        = string
   description = "Docker image tag to use"
-  default     = "6.0.10-debian-10-r4"
+  default     = "6.2.5-debian-10-r70"
 }
 
 variable "password_required" {
@@ -181,7 +181,7 @@ variable "env" {
 }
 
 variable "env_secret" {
-  type        = list(object({
+  type = list(object({
     name   = string
     secret = string
     key    = string
