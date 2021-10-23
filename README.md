@@ -24,6 +24,9 @@ module "redis" {
 | --------------------------------- | -------- | --------------------------- | -------------------------------------------------- |
 | `namespace`                       | Yes      | N/A                         | Kubernetes namespace to deploy into                |
 | `object_prefix`                   | Yes      | N/A                         | Unique name to prefix all objects with             |
+| `labels`                          | No       | N/A                         | Common labels to add to all objects - See example  |
+| `image_name`                      | No       | `bitnami/redis`             | Image to deploy as part of deployment              |
+| `image_tag`                       | No       | `6.0.10-debian-10-r4`       | Image tag to deploy                                |
 | `timeout_create`                  | No       | `3m`                        | Timeout for creating the statefulset               |
 | `timeout_update`                  | No       | `3m`                        | Timeout for updating the statefulset               |
 | `timeout_delete`                  | No       | `10m`                       | Timeout for deleting the statefulset               |
@@ -35,9 +38,6 @@ module "redis" {
 | `password_key`                    | No       | `redis-password`            | Database user to add                               |
 | `password_required`               | No       | `true`                      | Requires that Redis use a password                 |
 | `instance`                        | No       | `master`                    | Instance name, used for selectors                  |
-| `labels`                          | No       | N/A                         | Common labels to add to all objects - See example  |
-| `image_name`                      | No       | `bitnami/redis`             | Image to deploy as part of deployment              |
-| `image_tag`                       | No       | `6.0.10-debian-10-r4`       | Image tag to deploy                                |
 | `replicas`                        | No       | `1`                         | Amount of pods to deploy as part of deployment     |
 | `wait_for_rollout`                | No       | `true`                      | Wait for the StatefulSet to finish rolling out     |
 | `pod_management_policy`           | No       | `OrderedReady`              | Controls how pods are created during scaling       |
