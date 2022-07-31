@@ -24,7 +24,7 @@ locals {
   })
 }
 
-resource "kubernetes_stateful_set" "redis" {
+resource "kubernetes_stateful_set_v1" "redis" {
   timeouts {
     create = var.timeout_create
     update = var.timeout_update
@@ -40,7 +40,7 @@ resource "kubernetes_stateful_set" "redis" {
     pod_management_policy  = var.pod_management_policy
     replicas               = var.replicas
     revision_history_limit = var.revision_history
-    service_name           = kubernetes_service.redis.metadata[0].name
+    service_name           = kubernetes_service_v1.redis.metadata[0].name
     selector {
       match_labels = local.selector_labels
     }
@@ -95,7 +95,7 @@ resource "kubernetes_stateful_set" "redis" {
           port {
             name           = "redis"
             protocol       = "TCP"
-            container_port = kubernetes_service.redis.spec[0].port[0].target_port
+            container_port = kubernetes_service_v1.redis.spec[0].port[0].target_port
           }
           dynamic "env" {
             for_each = anytrue([var.password_required, length(var.password_secret) > 0]) ? [1] : []
@@ -103,7 +103,7 @@ resource "kubernetes_stateful_set" "redis" {
               name = "REDIS_PASSWORD"
               value_from {
                 secret_key_ref {
-                  name = alltrue([var.password_required, length(var.password_secret) > 0]) ? var.password_secret : var.password_required ? kubernetes_secret.redis[0].metadata[0].name : ""
+                  name = alltrue([var.password_required, length(var.password_secret) > 0]) ? var.password_secret : var.password_required ? kubernetes_secret_v1.redis[0].metadata[0].name : ""
                   key  = var.password_key
                 }
               }
@@ -244,7 +244,7 @@ resource "kubernetes_stateful_set" "redis" {
   }
 }
 
-resource "kubernetes_service" "redis" {
+resource "kubernetes_service_v1" "redis" {
   metadata {
     namespace   = var.namespace
     name        = var.object_prefix
@@ -265,7 +265,7 @@ resource "kubernetes_service" "redis" {
   }
 }
 
-resource "kubernetes_secret" "redis" {
+resource "kubernetes_secret_v1" "redis" {
   count = length(var.password_secret) == 0 ? var.password_required ? 1 : 0 : 0
   metadata {
     namespace = var.namespace
