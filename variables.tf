@@ -47,7 +47,7 @@ variable "image_name" {
 variable "image_tag" {
   type        = string
   description = "Docker image tag to use"
-  default     = "6.2.5-debian-10-r70"
+  default     = "6.2.12"
 }
 
 variable "password_required" {
